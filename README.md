@@ -2,6 +2,8 @@
 
 Tiny library to help you with credit card inputs.
 
+> This library is **headless** helper for your credit card inputs. It does not ship any styles and won't break existing ones.
+
 ## Installation
 
 ### npm
