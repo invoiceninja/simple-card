@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div id="app">
+      <form>
+        <input
+          type="text"
+          name="number"
+          placeholder="0000 0000 0000 0000"
+          id="number"
+        />
+
+        <input type="text" name="date" placeholder="mm/yy" id="date" />
+        <input type="text" name="number" placeholder="000" id="cvv" />
+      </form>
+    </div>
+
+    <code style="display: block; margin-top: 1rem">
+      <div>Type: <span id="type"></span></div>
+      <div>
+        Valid:
+        <span id="valid"></span>
+      </div>
+    </code>
+
+    <script type="module" src="/src/example.ts"></script>
+  </body>
+</html>
