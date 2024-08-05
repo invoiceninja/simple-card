@@ -38,7 +38,9 @@ const simpleCard = new SimpleCard({
       date: "#date",
     },
   },
-}).mount();
+});
+
+simpleCard.mount();
 ```
 
 ### Available methods
