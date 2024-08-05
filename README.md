@@ -26,6 +26,8 @@ npm i @invoiceninja/simple-card
 ```
 
 ```js
+import { SimpleCard } from "@invoiceninja/simple-card";
+
 const simpleCard = new SimpleCard({
   fields: {
     card: {
@@ -63,7 +65,7 @@ npm i
 npm run dev
 ```
 
-The demo is provided in demo.html available after starting the dev server (http://localhost:5173).
+Demo is available in demo.html after running `npm run dev`.
 
 ## Licence
 The MIT License (MIT).
