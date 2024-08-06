@@ -16,5 +16,10 @@
   "dependencies": {
     "@maskito/core": "^3.0.0",
     "@maskito/kit": "^3.0.0"
-  }
+  },
+  "main": "dist/simple-card.js",
+  "types": "dist/simple-card.d.ts",
+  "files": [
+    "dist"
+  ]
 }
