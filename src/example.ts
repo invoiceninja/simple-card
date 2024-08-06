@@ -21,5 +21,13 @@ for (const element of elements) {
   document.querySelector(element)?.addEventListener("input", () => {
     valid.innerText = `${sc.check().valid}`;
     type.innerText = `${sc.type()}`;
+
+    console.log({
+      number: sc.value("number"),
+      date: sc.value("date"),
+      year: sc.value("year"),
+      month: sc.value("month"),
+      cvv: sc.value("cvv"),
+    });
   });
 }

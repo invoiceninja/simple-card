@@ -201,4 +201,32 @@ export class SimpleCard {
 
     return "unknown";
   }
+
+  value(field: "number" | "date" | "year" | "month" | "cvv") {
+    if (field === "number") {
+      return this.number.value;
+    }
+
+    if (field === "date") {
+      return this.date.value;
+    }
+
+    if (field === "year") {
+      const [, year] = this.date.value.split("/");
+
+      return year;
+    }
+
+    if (field === "month") {
+      const [month] = this.date.value.split("/");
+
+      return month;
+    }
+
+    if (field === "cvv") {
+      return this.cvv.value;
+    }
+
+    return null;
+  }
 }
