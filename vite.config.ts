@@ -7,8 +7,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       fileName: "simple-card",
-      name: "simple-card",
-      formats: ["es"],
+      name: "SimpleCard",
+      formats: ["es", "iife"],
     },
   },
   plugins: [dts({ rollupTypes: true })],

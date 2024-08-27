@@ -230,3 +230,17 @@ export class SimpleCard {
     return null;
   }
 }
+
+declare global {
+  interface Window {
+    SimpleCard: typeof SimpleCard;
+    createSimpleCard: typeof createSimpleCard;
+  }
+}
+
+window.SimpleCard = SimpleCard;
+window.createSimpleCard = createSimpleCard;
+
+export function createSimpleCard(options: Options) {
+  return new SimpleCard(options);
+}
