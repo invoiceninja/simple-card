@@ -6,44 +6,90 @@ export const numbers = /^(?:\d{4}[ -]?){0,3}\d{0,4}$/;
 export const masks = {
   // Visa: Starts with 4, 13 or 16 digits
   visa: {
-    final: /^4(?:\d{3}[- ]?){3}\d{3,4}$/, // Exactly 13 or 16 digits
+    final: /^4[0-9]{12}(?:[0-9]{3})?$/, // Exactly 13 or 16 digits
     start: /^4/, // Checks if the input starts with 4
-    length: /^4\d{0,15}$/, // Strictly matches 1 to 16 digits after the initial 4, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(3).fill(/\d/), // Optional for 13-digit cards
+    ],
   },
 
   // MasterCard: Starts with 51-55, 16 digits
   mastercard: {
-    final: /^5[1-5]\d{3}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/, // Exactly 16 digits
+    final: /^5[1-5][0-9]{14}$/, // Exactly 16 digits
     start: /^5[1-5]/, // Checks if the input starts with 51-55
-    length: /^5[1-5]\d{0,15}$/, // Strictly matches 2 to 16 digits after the initial 51-55, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+    ],
   },
 
   // American Express: Starts with 34 or 37, 15 digits
   amex: {
-    final: /^3[47]\d{2}[- ]?\d{6}[- ]?\d{5}$/, // Exactly 15 digits
+    final: /^3[47][0-9]{13}$/, // Exactly 15 digits
     start: /^3[47]/, // Checks if the input starts with 34 or 37
-    length: /^3[47]\d{0,15}$/, // Strictly matches 2 to 15 digits after the initial 34 or 37, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(6).fill(/\d/),
+      " ",
+      ...new Array(5).fill(/\d/),
+    ],
   },
 
   // Discover: Starts with 6011 or 65 or 64[4-9], 16 digits
   discover: {
-    final: /^(6011|65|64[4-9])\d{4}[- ]?\d{4}[- ]?\d{4}$/, // Exactly 16 digits
+    final: /^6(?:011|5[0-9]{2})[0-9]{12}$/, // Exactly 16 digits
     start: /^(6011|65|64[4-9])/, // Checks if the input starts with 6011, 65, or 64 followed by 4-9
-    length: /^(6011|65|64[4-9])\d{0,15}$/, // Strictly matches 4 to 16 digits after the initial prefix, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+    ],
   },
 
   // Diners Club: Starts with 30[0-5], 36, 38, or 39, 14 digits
   diners: {
-    final: /^(30[0-5]|36|38|39)\d{4}[- ]?\d{4}[- ]?\d{4}$/, // Exactly 14 digits
+    final: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/, // Exactly 14 digits
     start: /^(30[0-5]|36|38|39)/, // Checks if the input starts with 30-35, 36, 38, or 39
-    length: /^(30[0-5]|36|38|39)\d{0,14}$/, // Strictly matches 2 to 14 digits after the initial prefix, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+    ],
   },
 
   // JCB: Starts with 2131, 1800, or 35[0-9]{3}, 15 or 16 digits
   jcb: {
-    final: /^(2131|1800|35[0-9]{3})\d{4}[- ]?\d{4}[- ]?\d{4}$/, // Exactly 15 or 16 digits
+    final: /^(?:2131|1800|35\d{3})\d{11}$/, // Exactly 15 or 16 digits
     start: /^(2131|1800|35[0-9]{3})/, // Checks if the input starts with 2131, 1800, or 35 followed by 3 digits
-    length: /^(2131|1800|35[0-9]{3})\d{0,15}$/, // Strictly matches 4 to 16 digits after the initial prefix, no spaces or dashes
+    mask: [
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(4).fill(/\d/),
+      " ",
+      ...new Array(3).fill(/\d/), // Optional for 15-digit cards
+    ],
   },
 };
 
@@ -102,27 +148,27 @@ export class SimpleCard {
     new Maskito(this.number as MaskitoElement, {
       mask: (state) => {
         if (masks.visa.start.test(state.value)) {
-          return new RegExp(masks.visa.length);
+          return masks.visa.mask;
         }
 
         if (masks.mastercard.start.test(state.value)) {
-          return new RegExp(masks.mastercard.length);
+          return masks.mastercard.mask;
         }
 
         if (masks.amex.start.test(state.value)) {
-          return new RegExp(masks.amex.length);
+          return masks.amex.mask;
         }
 
         if (masks.discover.start.test(state.value)) {
-          return new RegExp(masks.discover.length);
+          return masks.discover.mask;
         }
 
         if (masks.diners.start.test(state.value)) {
-          return new RegExp(masks.diners.length);
+          return masks.diners.mask;
         }
 
         if (masks.jcb.start.test(state.value)) {
-          return new RegExp(masks.jcb.length);
+          return masks.jcb.mask;
         }
 
         return new RegExp(numbers);
@@ -144,12 +190,12 @@ export class SimpleCard {
 
   check() {
     const number =
-      masks.visa.final.test(this.number.value) ||
-      masks.mastercard.final.test(this.number.value) ||
-      masks.amex.final.test(this.number.value) ||
-      masks.discover.final.test(this.number.value) ||
-      masks.diners.final.test(this.number.value) ||
-      masks.jcb.final.test(this.number.value);
+      masks.visa.final.test(this.value("number")!) ||
+      masks.mastercard.final.test(this.value("number")!) ||
+      masks.amex.final.test(this.value("number")!) ||
+      masks.discover.final.test(this.value("number")!) ||
+      masks.diners.final.test(this.value("number")!) ||
+      masks.jcb.final.test(this.value("number")!);
 
     const date = new RegExp("^(0[1-9]|1[0-2])/(?:\\d{2})$").test(
       this.date.value
@@ -204,7 +250,7 @@ export class SimpleCard {
 
   value(field: "number" | "date" | "year" | "month" | "cvv") {
     if (field === "number") {
-      return this.number.value;
+      return this.number.value.replace(/\s+/g, "");
     }
 
     if (field === "date") {
