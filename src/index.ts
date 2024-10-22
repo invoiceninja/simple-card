@@ -184,7 +184,13 @@ export class SimpleCard {
     );
 
     new Maskito(this.cvv as MaskitoElement, {
-      mask: [/\d/, /\d/, /\d/],
+      mask: () => {
+        if (this.type() === "amex") {
+          return [/\d/, /\d/, /\d/, /\d/];
+        }
+
+        return [/\d/, /\d/, /\d/];
+      },
     });
   }
 
@@ -201,7 +207,10 @@ export class SimpleCard {
       this.date.value
     );
 
-    const cvv = new RegExp("^\\d{3}$").test(this.cvv.value);
+    const cvv =
+      this.type() === "amex"
+        ? new RegExp("^[0-9]{4}$").test(this.cvv.value)
+        : new RegExp("^[0-9]{3}$").test(this.cvv.value);
 
     return {
       valid: number && date && cvv,
